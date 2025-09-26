@@ -25,6 +25,16 @@ I recomend using [SEED STUDIO XIAO ESP32-C6](https://www.seeedstudio.com/Seeed-S
 It's build with IDF 5.1.1 . It uses BlueDroid stack, don't forget to enable Bluetooth and select Bluedroid stack.
 You cand find binary firmware for XIAO ESP32-C6 with external antenna in repository releases. Do NOT use this firmware for non-XIAO ESP32-C6 or for without external antenna.
 
+## BLE devices support
+
+Only **pvvx (custom)** format BLE advertisements are supported. This means only [pvvx/ATC_MiThermometer](https://github.com/pvvx/ATC_MiThermometer) firmware is suitable for your sensors.
+
+MiTHBridge is **observer** device, it has no configurable items and it is not connectable.
+
+## Wi-Fi
+
+Wi-Fi is **not** used in this project at all.
+
 ## Naming
 
 **MiTHBridge** is short for **MI Thermometer Hygrometer Bridge**
