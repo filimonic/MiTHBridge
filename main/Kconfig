@@ -1,0 +1,119 @@
+menu "MiTHBridge Configuration"
+  choice 
+    prompt "Select board you're using"
+    default MITHBRIDGE_BOARD_ESP32C6_XIAO
+
+    config MITHBRIDGE_BOARD_ESP32C6_XIAO
+        bool "SEED STUDIO XIAO ESP32C6"
+
+    config MITHBRIDGE_BOARD_ESP32C3_SUPERMINI
+        bool "ESP32C3 Super Mini with ceramic antenna"
+
+    config MITHBRIDGE_BOARD_OTHER
+        bool "Other"
+
+  endchoice
+
+  config MITHBRIDGE_BOARD_USE_EXTERNAL_ANT
+      bool "Enable external antenna"
+      default y
+      help
+        Enable use of external antenna. Supported for: XIAO ESP32C6
+
+  config CONFIG_MITHBRIDGE_OUTPUT_QUEUE_SIZE
+    int "Output Queue Size, in number of items"
+    range 10 256
+    default 50
+    help
+      Size of the output queue for measurements. Increase this value if you have many sensors or if measurements are produced faster than they can be sent.
+
+  menu "LED Flasher Configuration"
+    config LED_FLASHER_ENABLED
+      bool "Enable LED Flasher"
+      default y
+      help
+        Enable or disable the LED flasher feature.
+
+    config LED_FLASHER_QUEUE_SIZE
+      int "Led flasher event queue size"
+      depends on LED_FLASHER_ENABLED
+      range 10 255
+      default 255
+      help
+        Size of queued led flash signals.
+
+    config LED_FLASHER_DUPLICATES_ENABLED
+      bool "Flash on duplicate packets too"
+      depends on LED_FLASHER_ENABLED
+      default y
+      help
+        Flash duplicate packets too.
+
+    config LED_FLASHER_LED_GPIO
+      int "LED GPIO Number"
+      depends on LED_FLASHER_ENABLED
+      range 0 39
+      default 8  if MITHBRIDGE_BOARD_ESP32C3_SUPERMINI
+      default 15 if MITHBRIDGE_BOARD_ESP32C6_XIAO
+      help
+        GPIO number for the LED.
+
+    config LED_FLASHER_INVERTED
+      bool "Inverted LED"
+      depends on LED_FLASHER_ENABLED
+      default y
+      help
+        Invert LED logic.
+
+    config LED_FLASHER_ON_INTERVAL_MS
+      int "LED Flash ON Interval (ms)"
+      depends on LED_FLASHER_ENABLED
+      range 100 2000
+      default 100
+      help
+        Duration LED stays ON in milliseconds for each incoming parsed packet.
+
+    config LED_FLASHER_OFF_INTERVAL_MS
+      int "LED Flash ON Interval (ms)"
+      depends on LED_FLASHER_ENABLED
+      range 100 2000
+      default 50
+      help
+        Interval in milliseconds for LED flashing.
+  endmenu
+
+  menu "BLE sensor configuration"
+    menu "Data cache configuration"
+      config SENSOR_BLE_MEASUREMENT_CACHE_SIZE   
+        int "Measurement cache size, in number of BLE devices"
+        range 30 500
+        default 100
+        help
+          Maximum number of devices in the measurement cache. This should be large enough to hold information of all your BLE devices.
+          If you have many sensor devices, consider increasing this value.
+      config SENSOR_BLE_MEASUREMENT_CACHE_EXPIRY_SECONDS
+        int "Measurement cache item expiration time (seconds)"
+        range 60 3600
+        default 300
+        help
+            Time in seconds after which cache entriy expires.
+
+    endmenu
+  endmenu
+
+  menu "Self Sensors Configuration"
+    config SENSORS_SELF_ENABLED
+      bool "Enable Self Sensors"
+      default y
+      help
+        Enable or disable the self sensors feature.
+
+    config SENSORS_SELF_INTERVAL_SECONDS
+      int "Self Sensors Measurement Interval (seconds)"
+      depends on SENSORS_SELF_ENABLED
+      range 10 300
+      default 60
+      help
+        Interval in seconds for measuring self sensors.
+  endmenu
+endmenu
