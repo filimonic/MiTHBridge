@@ -16,3 +16,7 @@
 
 
 #endif
+
+#if CONFIG_SENSORS_SELF_INTERVAL_SECONDS >= 30
+    #error "mithbridge.sh script expects to see data every 60 seconds. This value should be smaller than half of it."
+#endif

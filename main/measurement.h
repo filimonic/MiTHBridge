@@ -4,7 +4,7 @@
 
 #define MEASUREMENT_KIND_PVVX (1)
 #define MEASUREMENT_KIND_ESP (2)
-#define MEASUREMENT_KIND_KEEPALIVE (3)
+#define MEASUREMENT_KIND_RESERVED_1 (3) // Was keepalive before 1.0.3.0
 
 typedef uint8_t measurement_kind_t;
 
@@ -37,14 +37,6 @@ typedef union
         uint32_t uptime_seconds;
         float temperature_c;
     } data_esp;
-
-    struct __attribute__((packed)) _measurement_data_keepalive
-    {
-        measurement_kind_t kind; // MEASUREMENT_INFO_KIND_*
-        uint8_t counter;         // measurement count
-        uint8_t mac[8];
-        uint32_t uptime_seconds;
-    } data_keepalive;
 
 } measurement_t;
 

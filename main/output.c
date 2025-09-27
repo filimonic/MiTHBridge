@@ -70,7 +70,7 @@ void outputTask(void *pvParameters)
     output_measurement_ex_t omex;
     const char *BRIDGE_SELF = "bridge_self";
     const char *SENSOR_BLE = "sensor_ble";
-    char KEEPALIVE_MESSAGE[128];
+    //char KEEPALIVE_MESSAGE[128];
     //char *ABOUT_MESSAGE = NULL;
     //asprintf(&ABOUT_MESSAGE, "#\n# %s\n#    short name: %s\n#    version:    %s\n#    build date: %s %s\n#    homepage:   %s\n#", PROJECT_NAME_FULL, PROJECT_NAME_SHORT, app_desc_get()->version, app_desc_get()->date, app_desc_get()->time, PROJECT_HOMEPAGE );
     while (1)
@@ -100,12 +100,6 @@ void outputTask(void *pvParameters)
                 // print_fn(ABOUT_MESSAGE);
                 break;
             }
-            case MEASUREMENT_KIND_KEEPALIVE:
-            {
-                snprintf(KEEPALIVE_MESSAGE, sizeof(KEEPALIVE_MESSAGE), "# KEEPALIVE %lu", omex.measurement.data_keepalive.uptime_seconds);
-                print_fn(KEEPALIVE_MESSAGE);
-                break;
-            }
             default:
                 break;
             }
@@ -132,7 +126,7 @@ esp_err_t output_enqueue_measurement(measurement_t *measurement, bool is_duplica
     output_measurement_ex_t omex;
     omex.is_duplicate = is_duplicate;
     memcpy(&omex.measurement, measurement, sizeof(measurement_t));
-    if (omex.measurement.kind != MEASUREMENT_KIND_KEEPALIVE && omex.measurement.kind != MEASUREMENT_KIND_ESP)
+    if (omex.measurement.kind == MEASUREMENT_KIND_PVVX)
     {
         led_flasher_register_event(is_duplicate);
     }

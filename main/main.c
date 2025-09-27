@@ -14,7 +14,6 @@
 #include "output.h"
 #include "setup_gpio.h"
 #include "app_desc.h"
-#include "keepalive.h"
 
 // static const char * TAG = "BLE_SCAN";
 
@@ -46,7 +45,6 @@ void app_main(void)
     setup_gpio();
     ESP_ERROR_CHECK(led_flasher_start());
     ESP_ERROR_CHECK(output_start(println_fn));
-    ESP_ERROR_CHECK(sensors_keepalive_start(output_enqueue_measurement));
     ESP_ERROR_CHECK(sensors_self_start(output_enqueue_measurement));
     ESP_ERROR_CHECK(sensor_ble_start(output_enqueue_measurement));
 }

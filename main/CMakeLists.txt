@@ -1,4 +1,4 @@
-set(srcs  "main.c" "beacon_pvvx.c" "led_flasher.c" "sensors_self.c" "sensors_ble.c" "measurement.c" "output.c" "app_desc.c" "setup_gpio.c" "device_mac.c" "keepalive.c")
+set(srcs  "main.c" "beacon_pvvx.c" "led_flasher.c" "sensors_self.c" "sensors_ble.c" "measurement.c" "output.c" "app_desc.c" "setup_gpio.c" "device_mac.c")
 
 idf_component_register(SRCS "${srcs}"
                     INCLUDE_DIRS "."

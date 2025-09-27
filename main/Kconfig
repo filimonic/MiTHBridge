@@ -119,9 +119,9 @@ menu "MiTHBridge Configuration"
     config SENSORS_SELF_INTERVAL_SECONDS
       int "Self Sensors Measurement Interval (seconds)"
       depends on SENSORS_SELF_ENABLED
-      range 10 300
-      default 60
+      range 5 30
+      default 28
       help
-        Interval in seconds for measuring self sensors.
+        Interval in seconds for measuring self sensors. 
   endmenu
 endmenu
