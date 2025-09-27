@@ -22,9 +22,25 @@ void led_flash_task(void *arg)
     {
         if (xQueueReceive(led_event_queue, &is_duplicate, portMAX_DELAY) == pdPASS)
         {
-            // TODO: Distinguish duplicates and non-duplicates
             gpio_set_level(CONFIG_LED_FLASHER_LED_GPIO, LED_FLASHER_LED_ON);
-            vTaskDelay(pdMS_TO_TICKS(CONFIG_LED_FLASHER_ON_INTERVAL_MS));
+            if (is_duplicate)
+            {
+                
+                vTaskDelay(pdMS_TO_TICKS(CONFIG_LED_FLASHER_ON_INTERVAL_MS / 5));
+                gpio_set_level(CONFIG_LED_FLASHER_LED_GPIO, LED_FLASHER_LED_OFF);
+                vTaskDelay(pdMS_TO_TICKS(CONFIG_LED_FLASHER_ON_INTERVAL_MS / 5));
+                gpio_set_level(CONFIG_LED_FLASHER_LED_GPIO, LED_FLASHER_LED_ON);
+                vTaskDelay(pdMS_TO_TICKS(CONFIG_LED_FLASHER_ON_INTERVAL_MS / 5));
+                gpio_set_level(CONFIG_LED_FLASHER_LED_GPIO, LED_FLASHER_LED_OFF);
+                vTaskDelay(pdMS_TO_TICKS(CONFIG_LED_FLASHER_ON_INTERVAL_MS / 5));
+                gpio_set_level(CONFIG_LED_FLASHER_LED_GPIO, LED_FLASHER_LED_ON);
+                vTaskDelay(pdMS_TO_TICKS(CONFIG_LED_FLASHER_ON_INTERVAL_MS / 5));
+            }
+            else 
+            {
+                vTaskDelay(pdMS_TO_TICKS(CONFIG_LED_FLASHER_ON_INTERVAL_MS));
+            }
+            
             gpio_set_level(CONFIG_LED_FLASHER_LED_GPIO, LED_FLASHER_LED_OFF);
             vTaskDelay(pdMS_TO_TICKS(CONFIG_LED_FLASHER_OFF_INTERVAL_MS));
         }
