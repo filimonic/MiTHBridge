@@ -58,9 +58,9 @@ void outputTask(void *pvParameters)
     measurement_t measurement;
     const char *BRIDGE_SELF = "bridge_self";
     const char *SENSOR_BLE = "sensor_ble";
-    char *ABOUT_MESSAGE = NULL;
     char KEEPALIVE_MESSAGE[128];
-    asprintf(&ABOUT_MESSAGE, "#\n# %s\n#    short name: %s\n#    version:    %s\n#    build date: %s %s\n#    homepage:   %s\n#", PROJECT_NAME_FULL, PROJECT_NAME_SHORT, app_desc_get()->version, app_desc_get()->date, app_desc_get()->time, PROJECT_HOMEPAGE );
+    //char *ABOUT_MESSAGE = NULL;
+    //asprintf(&ABOUT_MESSAGE, "#\n# %s\n#    short name: %s\n#    version:    %s\n#    build date: %s %s\n#    homepage:   %s\n#", PROJECT_NAME_FULL, PROJECT_NAME_SHORT, app_desc_get()->version, app_desc_get()->date, app_desc_get()->time, PROJECT_HOMEPAGE );
     while (1)
     {
         if (xQueueReceive(output_queue, &measurement, portMAX_DELAY) == pdPASS)
@@ -85,13 +85,14 @@ void outputTask(void *pvParameters)
                 sprintf_collectd_value(print_fn, measurement.data_esp.mac, BRIDGE_SELF, measurement.data_esp.mac, "operations", "%" PRIu8, measurement.data_esp.counter);
 
                 //Print project info
-                print_fn(ABOUT_MESSAGE);
+                // print_fn(ABOUT_MESSAGE);
                 break;
             }
             case MEASUREMENT_KIND_KEEPALIVE:
             {
                 snprintf(KEEPALIVE_MESSAGE, sizeof(KEEPALIVE_MESSAGE), "# KEEPALIVE %lu", measurement.data_keepalive.uptime_seconds);
                 print_fn(KEEPALIVE_MESSAGE);
+                break;
             }
             default:
                 break;
