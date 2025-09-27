@@ -122,6 +122,9 @@ esp_err_t output_enqueue_measurement(measurement_t *measurement, bool is_duplica
     output_measurement_ex_t omex;
     omex.is_duplicate = is_duplicate;
     memcpy(&omex.measurement, measurement, sizeof(measurement_t));
-    led_flasher_register_event(is_duplicate);
+    if (omex.measurement.kind != MEASUREMENT_KIND_KEEPALIVE && omex.measurement.kind != MEASUREMENT_KIND_ESP)
+    {
+        led_flasher_register_event(is_duplicate);
+    }
     return xQueueSend(output_queue, &omex, 0) == pdTRUE ? ESP_OK : ESP_FAIL;
 }
