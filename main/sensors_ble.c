@@ -98,12 +98,6 @@ static void gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
         uint8_t device_name_len = 0;
         if (beacon_pvvx_parse(adv_report->adv_data, adv_report->adv_data_len, &pvvx_data, &device_name, (uint8_t *)&device_name_len) == 0)
         {
-            // TODO: add led blink here
-            if (sensor_ble_measurement_cache_is_duplicate((uint8_t *)pvvx_data->mac, pvvx_data->counter))
-            {
-                measurement_put_fn(NULL, true);
-                break;
-            }
             uint8_t mac_8[8] = {0,0,0,0,0,0,0,0};
             memcpy(mac_8, pvvx_data->mac, sizeof(pvvx_data->mac));
             measurement_t measurement;
@@ -120,7 +114,7 @@ static void gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
                                              adv_report->rssi,
                                              adv_report->primary_phy == ESP_BLE_GAP_PRI_PHY_CODED ? 1 : 0) == 0)
             {
-                measurement_put_fn(&measurement, false);
+                measurement_put_fn(&measurement, sensor_ble_measurement_cache_is_duplicate((uint8_t *)pvvx_data->mac, pvvx_data->counter));
             }
         };
         break;
