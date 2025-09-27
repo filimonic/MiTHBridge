@@ -19,6 +19,16 @@ int sprintf_collectd_value(output_print_fn_t print_fn, uint8_t is_duplicate, uin
     {
         return -10000;
     }
+
+    #if CONFIG_MITHBRIDGE_OUTPUT_DUPLICATES
+        // Duplicates will be output
+    #else 
+        if (is_duplicate)
+        {
+            return 0;
+        }
+    #endif
+
     va_list args;
     char buf[256];
     int used_bytes = 0;

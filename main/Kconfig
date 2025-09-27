@@ -27,6 +27,14 @@ menu "MiTHBridge Configuration"
     help
       Size of the output queue for measurements. Increase this value if you have many sensors or if measurements are produced faster than they can be sent.
 
+
+  config CONFIG_MITHBRIDGE_OUTPUT_DUPLICATES
+    bool "Output duplicates for debug purposes"
+    default n
+    help
+      Output duplicates for debug purposes
+
+
   menu "LED Flasher Configuration"
     config LED_FLASHER_ENABLED
       bool "Enable LED Flasher"
