@@ -14,7 +14,8 @@ You can connect it via USB cable to your [OpenWrt](https://openwrt.org/) router,
 
 ## Hardware
 
-**External antenna strongly recommended**. I tried using with ESP32-C3 SuperMini board, but it's ceramic antenna gives very low range of reception. XIAO ESP32-C6 with $2 external antenna gives much better range results.
+**External antenna strongly recommended**. I tried using ceramic antenna wich gives very low gain. XIAO ESP32-C6 with $5 external antenna gives much better range results. You can use any 2.4 GHz Wi-Fi antenna with SMA Male connector and *10cm* IPEX (U.FL) to (not "RP" prefixed) SMA Female adaptor. I recommend
+takle antennas with high gain ( > +6 dbm ).
 
 ### XIAO ESP32-C6
 
