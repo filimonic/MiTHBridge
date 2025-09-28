@@ -89,17 +89,17 @@ menu "MiTHBridge Configuration"
       int "LED Flash ON Interval (ms)"
       depends on LED_FLASHER_ENABLED
       range 100 2000
-      default 200
+      default 150
       help
-        Duration LED stays ON in milliseconds for each incoming parsed packet.
+        Duration on ON state of LED. For duplicate packets it's twice (ON + ON). For non-duplicate packets it's 3x (ON + OFF + ON).
 
     config LED_FLASHER_OFF_INTERVAL_MS
-      int "LED Flash ON Interval (ms)"
+      int "LED Flash OFF Interval (ms)"
       depends on LED_FLASHER_ENABLED
       range 100 2000
       default 600
       help
-        Interval in milliseconds for LED flashing.
+        Minimal interval in milliseconds between LED signals.
   endmenu
 
   menu "BLE sensor configuration"
