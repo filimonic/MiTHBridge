@@ -60,13 +60,16 @@ esp_err_t led_flasher_start(void)
 esp_err_t led_flasher_register_event(bool is_duplicate)
 {
 #if CONFIG_LED_FLASHER_ENABLED
-
-    if (is_duplicate && !CONFIG_LED_FLASHER_DUPLICATES_ENABLED)
-    {
-        return ESP_OK;
-    }
     uint8_t value = is_duplicate ? 1 : 0;
-    return (xQueueSend(led_event_queue, &value, 0) == pdTRUE ? ESP_OK : ESP_FAIL);
+    if (is_duplicate)
+    {
+        if (!CONFIG_LED_FLASHER_DUPLICATES_ENABLED) 
+        {
+            return ESP_OK;
+        }
+        return (xQueueSendToBack(led_event_queue, &value, 0) == pdTRUE ? ESP_OK : ESP_FAIL);
+    }
+    return (xQueueSendToFront(led_event_queue, &value, pdMS_TO_TICKS((CONFIG_LED_FLASHER_OFF_INTERVAL_MS + CONFIG_LED_FLASHER_ON_INTERVAL_MS) * 2)) == pdTRUE ? ESP_OK : ESP_FAIL);
 #else
     return ESP_OK
 #endif
