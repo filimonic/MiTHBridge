@@ -14,6 +14,7 @@
 #include "device_mac.h"
 
 output_enqueue_measurement_fn_t measurement_put_fn = NULL;
+watchdog_ble_sesors_feed_fn_t watchdog_feed_fn = NULL;
 
 typedef struct __attribute__((packed)) _sensor_ble_cache_item
 {
@@ -98,6 +99,7 @@ static void gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
         uint8_t device_name_len = 0;
         if (beacon_pvvx_parse(adv_report->adv_data, adv_report->adv_data_len, &pvvx_data, &device_name, (uint8_t *)&device_name_len) == 0)
         {
+            watchdog_ble_sensors_feed();
             uint8_t mac_8[8] = {0,0,0,0,0,0,0,0};
             memcpy(mac_8, pvvx_data->mac, sizeof(pvvx_data->mac));
             measurement_t measurement;
@@ -124,7 +126,7 @@ static void gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
     }
 }
 
-esp_err_t sensor_ble_start(output_enqueue_measurement_fn_t fn)
+esp_err_t sensor_ble_start(output_enqueue_measurement_fn_t fn, watchdog_ble_sesors_feed_fn_t feed_fn)
 {
     sensor_ble_measurement_cache_init();
     ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT));
@@ -149,6 +151,7 @@ esp_err_t sensor_ble_start(output_enqueue_measurement_fn_t fn)
     };
     ESP_ERROR_CHECK(esp_ble_gap_set_ext_scan_params(&ext_scan_params));
     measurement_put_fn = fn;
+    watchdog_feed_fn = feed_fn;
     ESP_ERROR_CHECK(esp_ble_gap_start_ext_scan(0, 0));
 
     return ESP_OK;

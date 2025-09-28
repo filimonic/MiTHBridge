@@ -2,6 +2,7 @@
 #include "sdkconfig.h"
 #include "esp_err.h"
 #include "output.h"
+#include "watchdog_ble_sensors.h"
 
 #ifdef CONFIG_SENSOR_BLE_MEASUREMENT_CACHE_SIZE
 #if CONFIG_SENSOR_BLE_MEASUREMENT_CACHE_SIZE < 30
@@ -25,4 +26,4 @@
 
 #define SENSOR_BLE_MEASUREMENT_CACHE_EXPIRY_MICROS (SENSOR_BLE_MEASUREMENT_CACHE_EXPIRY_SECONDS * 1000000)
 
-esp_err_t sensor_ble_start(output_enqueue_measurement_fn_t fn);
+esp_err_t sensor_ble_start(output_enqueue_measurement_fn_t fn, watchdog_ble_sesors_feed_fn_t feed_fn);

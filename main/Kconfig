@@ -34,6 +34,19 @@ menu "MiTHBridge Configuration"
     help
       Output duplicates for debug purposes
 
+  config MITHBRIDGE_BLE_WATCHDOG_ENABLED
+    bool "Enable BLE WatchDog"
+    default y
+    help
+      Restart ESP if no BLE packets captured for long time
+
+  config MITHBRIDGE_BLE_WATCHDOG_TIMEOUT_MIN
+    int "BLE WatchDog Timeout (minutes)"
+    range 1 30
+    default 15
+    help
+      If no BLE packets captured for this number of minutes, restart ESP
+
   menu "LED Flasher Configuration"
     config LED_FLASHER_ENABLED
       bool "Enable LED Flasher"
