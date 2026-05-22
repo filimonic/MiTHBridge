@@ -1,3 +1,10 @@
+# DEPRECATED
+
+[MithBridge 2](https://github.com/filimonic/MiTHBridge2) is successor of this project since 2026.05.22.
+
+<hr/>
+
+
 # MiTHBridge
 
 **MiTHBridge** is a tiny device that listens for [pvvx/ATC_MiThermometer](https://github.com/pvvx/ATC_MiThermometer) BLE advertisements in **pvvx (custom)** format and prints data to USB-ACM serial in [CollectD exec plugin](https://collectd.org/documentation/manpages/collectd-exec.html) format. 
